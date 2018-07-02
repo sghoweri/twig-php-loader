@@ -1,0 +1,37 @@
+{
+  "name": "twig-loader-php",
+  "version": "0.0.0",
+  "description": "Webpack loader for compiling Twig templates using a remote PHP Rendering Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sghoweri/twig-loader-php.git"
+  },
+  "author": "Salem Ghoweri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sghoweri/twig-loader-php/issues"
+  },
+  "homepage": "https://github.com/sghoweri/twig-loader-php#readme",
+  "peerDependencies": {
+    "twig": "~1.10.5"
+  },
+  "dependencies": {
+    "hasha": "^3.0.0",
+    "loader-utils": "^1.1.0",
+    "map-cache": "^0.2.2",
+    "schema-utils": "^0.4.5",
+    "twig": "^1.12.0",
+    "underscore": "^1.9.1",
+    "resolve-pkg": "^1.0.0",
+    "find-pkg": "^2.0.0",
+    "query-string": "^6.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "should": "^13.2.1"
+  }
+}

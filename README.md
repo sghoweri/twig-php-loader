@@ -1,5 +1,6 @@
-# twig-loader [![Build Status](https://travis-ci.org/sghoweri/twig-loader-php.svg)](https://travis-ci.org/sghoweri/twig-loader-php)
-Webpack loader for natively compiling Twig templates via an external PHP rendering service. Based originally off of https://github.com/zimmo-be/twig-loader
+Webpack loader for natively compiling Twig templates via an external PHP rendering service. Based originally off of https://github.com/zimmo-be/twig-loader. 
+
+Extra huge shoutout to [Evan Lovely](https://twitter.com/EvanLovely) for his help on a ton of the ideas behind this!
 
 ## Installation
 
@@ -8,96 +9,43 @@ Webpack loader for natively compiling Twig templates via an external PHP renderi
 ## Usage
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html?branch=master)
 
-``` javascript
+```javascript
+
+const TwigPhpLoader = require('twig-loader-php');
 
 module.exports = {
 //...
   module: {
-    rules: [    
+    rules: [
       {
         test: /\.twig$/,
-        loader: "twig-loader-php",
+        loader: TwigPhpLoader.loader,
         options: {
-          // See options section below
+          port: config.port,
+          namespaces: twigNamespaces,
+          includeContext: false, // false by default - this changes how / when the Twig template gets rendered so that HtmlWebpackPlugin's contextual data is available
         },
-      }
+      },
     ]
   },
 
-  node: {
-    fs: "empty" // avoids error messages
-  }
+  //...
+  plugins: [
+    new TwigPhpLoader(), // <-- super important part!
+
+    // For example, wiring this up to the HtmlWebpackPlugin to compile Pattern Lab's Workshop UI (as Twig templates) 
+    new HtmlWebpackPlugin({
+      title: 'Custom template',
+      filename: '../index.html',
+      inject: true,
+      cache: false,
+      // Load a custom template (lodash by default see the FAQ for details)
+      template: path.resolve(process.cwd(), '../../packages/uikit-workshop/src/html-twig/index.twig'),
+    }),
+  ]  
 };
 ```
 
-<!-- ### Options 
-- `twigOptions`: optional; a map of options to be passed through to Twig.
-  Example: `{autoescape: true}`
+Note: in this early version, internally we're assuming the PHP service's API expects requests to be structured as `http://localhost:${opts.port}/api/render-twig?templatePath=${querystringifiedTemplate} -- with the body of the POST request containing the Twig data to be passed along.
 
-## Loading templates
-
-```twig
-{# File: dialog.html.twig #}
-<p>{{title}}</p>
-```
-
-```javascript
-// File: app.js
-var template = require("dialog.html.twig");
-// => returns pre-compiled template as a function and automatically includes Twig.js to your project
-
-var html = template({title: 'dialog title'});
-// => Render the view with the given context
-
-```
-
-When you extend another view, it will also be added as a dependency. All twig functions that refer to additional templates are supported: import, include, extends & embed.
-
-## Changelog
-0.4.1 / 2018-06-12
-==================
- * Upgrade mocha to fix security vulnerability warning
-
-0.4.0 / 2018-05-17
-==================
- * Add ablity to pass options to twig (PR #39)
-
-0.3.1 / 2017-11-08
-==================
- * Update to Twig.js 1.10, fixes #29
-
-0.3.0 / 2017-02-19
-==================
- * replace full path with a hash and implement mapcache for id/path resolution, fixes #12
-
-0.2.4 / 2016-12-29
-==================
- * Downgrade Twig.js back to 0.8.9 because of https://github.com/twigjs/twig.js/issues/440
-
-0.2.3 / 2016-06-11
-==================
- * Improve watch operation (rebuilding of modules)
- * Refactoring so compiler and the loader are in seperate modules
- * Add Twig as peer dependency
-
-0.2.2 / 2016-06-03
-==================
-
- * Add `embed` support
- * Update Twig.js version
-
-0.2.1 / 2016-04-18
-==================
-
-* Improve `import` support (https://github.com/zimmo-be/twig-loader/pull/8)
-* Rethrow exceptions when they occur during rendering to improve testing
-
-0.2.0 / 2016-01-21
-==================
-
-* Add support for import statements (useful for Macro's)
-* Correctly resolve dependencies from include/import/extend statements with relative path support: [\#3] and [\#5]
-* CHANGE: No longer add the `.twig` file extension. After upgrading twig-loader, you may need to update your files and add `.twig` manually
-
--->
-
+This will eventually change to become much more customizable!

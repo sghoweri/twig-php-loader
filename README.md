@@ -1,3 +1,5 @@
+## Twig Loader PHP for Webpack v4 (super early WIP!)
+
 Webpack loader for natively compiling Twig templates via an external PHP rendering service. Based originally off of https://github.com/zimmo-be/twig-loader. 
 
 Extra huge shoutout to [Evan Lovely](https://twitter.com/EvanLovely) for his help on a ton of the ideas behind this!

@@ -1,5 +1,5 @@
 {
-  "name": "twig-loader-php",
+  "name": "twig-php-loader",
   "version": "0.1.0",
   "description": "Webpack loader for compiling Twig templates using a remote PHP Rendering Service",
   "main": "lib/index.js",

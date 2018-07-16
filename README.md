@@ -46,6 +46,6 @@ module.exports = {
 };
 ```
 
-Note: in this early version, internally we're assuming the PHP service's API expects requests to be structured as `http://localhost:${opts.port}/api/render-twig?templatePath=${querystringifiedTemplate} -- with the body of the POST request containing the Twig data to be passed along.
+Note: in this early version, internally we're assuming the PHP service's API expects requests to be structured as `http://localhost:${opts.port}/api/render-twig?templatePath=${querystringifiedTemplate}` -- with the body of the POST request containing the Twig data to be passed along.
 
 This will eventually change to become much more customizable!
